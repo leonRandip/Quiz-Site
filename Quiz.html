@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz with JavaScript...</title>
+<style>
+@font-face {
+  font-family: myFirstFont;
+  src: url(LED\ Dot-Matrix\ 400.ttf);
+}
+* {
+font-family: 'Courier New', Courier, monospace;
+}
+body{
+background: black;
+}
+.app {
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%,-50%);
+background: rgba(255, 255, 255, 0.936);
+width: 90%;
+max-width: 600px;
+border-radius: 10px;
+padding: 30px;
+}
+.app h2 {
+font-family: myFirstFont;
+font-weight: 25px;
+font-weight: 600;
+border-bottom: 1px solid #333333;
+padding-bottom: 30px;
+color: rgb(0, 0, 0);
+text-align: center;
+}
+h3 {
+font-size: 18px;
+
+font-weight: 800;
+}
+.quiz {
+color: rgb(0, 0, 0);
+margin: 2em;
+font-size: 20px;
+justify-content: right;
+}
+#answers button {
+background: #323232;
+border: none;
+color: white;
+width: 100%;
+font-weight: 700;
+height: 4em;
+margin-bottom: 5px;
+padding: 10px 0;
+border-radius: 99px;
+cursor: pointer;
+transition: all 0.3s;
+}
+#answers button:hover:not([disabled]) {
+background:#4867AA;
+color: black;
+}
+#answers button:disabled {
+cursor: no-drop;
+}
+#next {
+font-size: 17px;
+font-weight: 700;
+margin-top: 10%;
+margin-left: 50%;
+transform: translate(-50%,-50%);
+width: 8em;
+height: 3em;
+border: none;
+background-color: #323232;
+color: white;
+border-radius: 99px;
+cursor: pointer;
+display: none;
+}
+
+#answers .correct {
+background:#E6FFEB;
+color: black;
+}
+#answers .incorrect {
+background: #FFE6E9;
+color: black;
+}
+</style>
+</head>
+<body>
+<div class="app">
+<h2>&rarr;JavaScript&larr;</h2>
+<div class="quiz">
+<h3 id="question">Hello</h3>
+<div id="answers">
+<button class="btn">Option 1</button>
+<button class="btn">Option 2</button>
+<button class="btn">Option 3</button>
+<button class="btn">Option 4</button>
+</div>
+<button id="next">Next</button>
+</div>
+</div>
+<script>
+const questions = [
+{
+question: "When interpreter encounters an empty statements, what it will do.",
+answers: [
+{text: "Shows a warning", correct: "false"},
+{text: "Prompts to complete the statement", correct: "false"},
+{text: "Throws an error", correct: "false"},
+{text: "Ignores the statements", correct: "true"}
+]
+},
+{
+question: "Which of the following variables takes precedence over the others if the names are the same?",
+answers: [
+{text: "Global variable", correct: "false"},
+{text: "The local element", correct: "true"},
+{text: "The two of the above", correct: "false"},
+{text: "None of the above", correct: "false"}
+]
+},
+
+{
+question: "Which one of the following is the correct way for calling the JavaScript code?",
+answers: [
+{text: "Preprocessor", correct: "false"},
+{text: "Triggering Event", correct: "false"},
+{text: "RMI", correct: "false"},
+{text: "Function/Method", correct: "true"}
+]
+},
+{
+question: "Which of the following type of a variable is volatile?",
+answers: [
+{text: "Mutable variable", correct: "true"},
+{text: "Dynamic variable", correct: "false"},
+{text: "Volatile variable", correct: "false"},
+{text: "Immutable variable", correct: "false"}
+]
+},
+{
+question: "Which of the following option is used as hexadecimal literal beginning?",
+answers: [
+{text: "00", correct: "false"},
+{text: "0x", correct: "false"},
+{text: "0X", correct: "false"},
+{text: "Both 0x and 0X", correct: "true"}
+]
+}
+];
+const questionElement = document.getElementById("question");
+const answerButton = document.getElementById("answers");
+const nextButton = document.getElementById("next");
+let currentQuestionIndex = 0;
+let score = 0;
+function startQuiz() {
+currentQuestionIndex = 0;
+score = 0;
+nextButton.innerHTML = "Next";
+showQuestion();
+}
+function showQuestion() {
+resetState();
+let currentQuestion = questions[currentQuestionIndex];
+let questionNo = currentQuestionIndex + 1;
+
+questionElement.innerHTML = questionNo + ". "+ currentQuestion.question;
+currentQuestion.answers.forEach(answer => {
+const button = document.createElement("button");
+button.innerHTML = answer.text;
+button.classList.add("btn");
+answerButton.appendChild(button);
+if(answer.correct) {
+button.dataset.correct = answer.correct;
+}
+button.addEventListener("click",selectAnswer);
+});
+}
+function resetState() {
+next.style.display = "none";
+while(answerButton.firstChild) {
+answerButton.removeChild(answerButton.firstChild);
+}
+}
+function selectAnswer(e) {
+const selectedBtn = e.target;
+const isCorrect = selectedBtn.dataset.correct === "true";
+if(isCorrect) {
+selectedBtn.classList.add("correct");
+score++;
+}
+else {
+selectedBtn.classList.add("incorrect");
+}
+Array.from(answerButton.children).forEach(button => {
+if(button.dataset.correct === "true") {
+button.classList.add("correct");
+}
+button.disabled = true;
+});
+nextButton.style.display = "block";
+}
+function showScore() {
+resetState();
+questionElement.innerHTML = `!You got ${score} out of
+${questions.length}!`;
+nextButton.innerHTML = "Play Again";
+nextButton.style.display = "block";
+}
+
+function handleNextButton() {
+currentQuestionIndex++;
+if(currentQuestionIndex < questions.length) {
+showQuestion();
+}
+else {
+showScore();
+}
+}
+nextButton.addEventListener("click",() => {
+if(currentQuestionIndex < questions.length) {
+handleNextButton();
+}
+else {
+startQuiz();
+}
+});
+startQuiz();
+</script>
+</body>
+</html>
