@@ -7,7 +7,7 @@
 <style>
 @font-face {
   font-family: myFirstFont;
-  src: url();
+  src: url(LED\ Dot-Matrix\ 400.ttf);
 }
 * {
 font-family: 'Courier New', Courier, monospace;
@@ -27,6 +27,7 @@ border-radius: 10px;
 padding: 30px;
 }
 .app h2 {
+font-family: myFirstFont;
 font-weight: 25px;
 font-weight: 600;
 border-bottom: 1px solid #333333;
@@ -36,6 +37,7 @@ text-align: center;
 }
 h3 {
 font-size: 18px;
+
 
 font-weight: 800;
 }
@@ -59,7 +61,7 @@ cursor: pointer;
 transition: all 0.3s;
 }
 #answers button:hover:not([disabled]) {
-background: rgb(61, 233, 38);
+background:#4867AA;
 color: black;
 }
 #answers button:disabled {
@@ -81,19 +83,20 @@ cursor: pointer;
 display: none;
 }
 
+
 #answers .correct {
-background: rgb(50, 231, 30);
+background:#E6FFEB;
 color: black;
 }
 #answers .incorrect {
-background: rgb(255, 0, 0);
+background: #FFE6E9;
 color: black;
 }
 </style>
 </head>
 <body>
 <div class="app">
-<h2>.JavaScript.</h2>
+<h2>&rarr;JavaScript&larr;</h2>
 <div class="quiz">
 <h3 id="question">Hello</h3>
 <div id="answers">
@@ -125,6 +128,7 @@ answers: [
 {text: "None of the above", correct: "false"}
 ]
 },
+
 
 {
 question: "Which one of the following is the correct way for calling the JavaScript code?",
@@ -170,6 +174,7 @@ resetState();
 let currentQuestion = questions[currentQuestionIndex];
 let questionNo = currentQuestionIndex + 1;
 
+
 questionElement.innerHTML = questionNo + ". "+ currentQuestion.question;
 currentQuestion.answers.forEach(answer => {
 const button = document.createElement("button");
@@ -213,6 +218,7 @@ ${questions.length}!`;
 nextButton.innerHTML = "Play Again";
 nextButton.style.display = "block";
 }
+
 
 function handleNextButton() {
 currentQuestionIndex++;
